@@ -44,5 +44,5 @@ python main.py
 ### Output
 
 - Console log with performance statistics
-- [performance_analysis.png visualization](https://github.com/XenosWarlocks/Read-Write-Analysis/blob/main/performance_analysis.png)
+- [performance_analysis.png visualization](https://github.com/XenosWarlocks/Read-Write-Analysis/blob/main/Read%26Write/performance_analysis.png)
 - Output text files for each writing method
