@@ -233,25 +233,54 @@ def visualize_performance(metrics: Dict):
     """
     Create visualizations for performance analysis.
     """
-    plt.figure(figsize=(12, 5))
+    try:
+        # Ensure response_times exists and is not empty
+        if 'response_times' not in metrics or not metrics['response_times']:
+            print("Warning: No response times available for visualization.")
+            return
 
-    # Success Rate Pie Chart
-    plt.subplot(1, 2, 1)
-    success_labels = ['Successful', 'Failed']
-    success_sizes = [metrics['success_rate'], 100 - metrics['success_rate']]
-    plt.pie(success_sizes, labels=success_labels, autopct='%1.1f%%', colors=['green', 'red'])
-    plt.title('Website Check Success Rate')
+        # Verify the data
+        response_times = metrics['response_times']
+        print(f"Debug: Response times - {response_times}")
+        print(f"Debug: Number of response times: {len(response_times)}")
+        print(f"Debug: Min response time: {min(response_times)}")
+        print(f"Debug: Max response time: {max(response_times)}")
 
-    # Response Time Histogram
-    plt.subplot(1, 2, 2)
-    plt.hist(metrics['response_times'], bins=20, color='skyblue', edgecolor='black')
-    plt.title('Response Time Distribution')
-    plt.xlabel('Response Time (seconds)')
-    plt.ylabel('Frequency')
-    
-    plt.tight_layout()
-    plt.savefig('website_check_performance.png')
-    plt.close()
+        plt.figure(figsize=(12, 5))
+
+        # Success Rate Pie Chart
+        plt.subplot(1, 2, 1)
+        success_labels = ['Successful', 'Failed']
+        success_sizes = [metrics['success_rate'], 100 - metrics['success_rate']]
+        plt.pie(success_sizes, labels=success_labels, autopct='%1.1f%%', colors=['green', 'red'])
+        plt.title('Website Check Success Rate')
+
+        # Response Time Histogram
+        plt.subplot(1, 2, 2)
+        if not response_times:
+            plt.text(0.5, 0.5, 'No Response Time Data', 
+                     horizontalalignment='center', 
+                     verticalalignment='center')
+        else:
+            plt.hist(response_times, bins=20, color='skyblue', edgecolor='black')
+            plt.title('Response Time Distribution')
+            plt.xlabel('Response Time (seconds)')
+            plt.ylabel('Frequency')
+        
+        plt.tight_layout()
+        
+        # Ensure directory exists
+        import os
+        os.makedirs(os.path.dirname('website_check_performance.png') or '.', exist_ok=True)
+        
+        plt.savefig('website_check_performance.png')
+        print("Performance visualization saved as 'website_check_performance.png'")
+        plt.close()
+
+    except Exception as e:
+        print(f"Error in visualization: {e}")
+        import traceback
+        traceback.print_exc()
 
 def main():
     # Read companies from file
@@ -285,6 +314,9 @@ def main():
         print(f"Median Response Time: {performance['median_response_time']:.4f} seconds")
         print(f"Min Response Time: {performance['min_response_time']:.4f} seconds")
         print(f"Max Response Time: {performance['max_response_time']:.4f} seconds")
+        
+        # Visualize performance
+        visualize_performance(performance)
 
 if __name__ == "__main__":
     main()
