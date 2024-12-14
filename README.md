@@ -138,10 +138,6 @@ Each project includes:
 - Discuss concurrency patterns
 - Learn from each other's approaches
 
-## 📄 License
-
-[Specify Your License]
-
 ---
 
 **Happy Concurrent Coding! 🚀**
