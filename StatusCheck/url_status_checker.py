@@ -26,7 +26,7 @@ class WebsiteChecker:
         """
         self.timeout = timeout
         self.max_concurrent = max_concurrent
-        self.rate_limit = rate_limit
+        self._rate_limit = rate_limit
         self.semaphore = asyncio.Semaphore(max_concurrent)
         self.last_request_time = 0
         # self.session = requests.Session()
@@ -81,9 +81,9 @@ class WebsiteChecker:
         current_time = time.time()
         elapsed = current_time - self.last_request_time
 
-        if elapsed < self.rate_limit:
-            await asyncio.sleep(self.rate_limit - elapsed)
-
+        if elapsed < self._rate_limit:
+            await asyncio.sleep(self._rate_limit - elapsed)
+        
         self.last_request_time = time.time()
 
     async def check_website_async(self, session: aiohttp.ClientSession, company_name: str) -> Dict:
