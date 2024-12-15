@@ -106,7 +106,7 @@ The Website Checker is a sophisticated tool that:
 # Clone the repository
 git clone https://github.com/XenosWarlocks/Read-Write-Analysis.git
 
-cd StatusCheck
+cd Read-Write-Analysis/StatusCheck
 
 # Install dependencies
 pip install aiohttp requests matplotlib
